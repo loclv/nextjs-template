@@ -30,6 +30,12 @@ pnpm lint:css:fix
 pnpm format
 ```
 
+## 🌒 Add environment variable for development and production
+
+```bash
+cp .env.development .env.local
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
