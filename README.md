@@ -24,6 +24,9 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ```bash
 pnpm lint
+pnpm lint:ts:fix
+pnpm lint:css
+pnpm lint:css:fix
 pnpm format
 ```
 

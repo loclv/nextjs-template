@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-recommended-scss",
+  "formatter": "stylelint-checkstyle-formatter",
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "string-quotes": "single",
+    "color-hex-length": "long",
+    "color-function-notation": "modern",
+    "import-notation": "string"
+  }
+}
