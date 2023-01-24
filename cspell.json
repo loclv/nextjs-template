@@ -1,6 +1,7 @@
 {
     "words": [
         "callout",
-        "checkstyle"
+        "checkstyle",
+        "commitlint"
     ]
 }
