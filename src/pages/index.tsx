@@ -19,6 +19,34 @@ const getData = async () => {
   }
 };
 
+const handleFolderSelected = (event: {
+  target: { files: FileList | null };
+}) => {
+  const files = event.target.files;
+  if (!files) throw new Error('Files are not found!');
+
+  console.log('🚀 ~ event.target', event.target);
+  console.log('🚀 ~ files', files);
+
+  const firstFile = files[0];
+  if (!files) throw new Error('First file is not found!');
+
+  const reader = new FileReader();
+
+  reader.onload = ((theFile) => {
+    console.log('🚀 ~ theFile', theFile);
+
+    return (fileReaderEvent) => {
+      console.log(
+        '🚀 ~ fileEvent.target?.result',
+        fileReaderEvent.target?.result
+      );
+    };
+  })(firstFile);
+
+  reader.readAsText(firstFile);
+};
+
 export default function Home() {
   useEffect(() => {
     getData();
@@ -37,13 +65,14 @@ export default function Home() {
           <p>
             Get started by editing&nbsp;
             <code className={styles.code}>pages/index.tsx</code>
-            <input
-              type="file"
-              directory="directory"
-              multiple
-              webkitdirectory="webkitdirectory"
-            />
           </p>
+          <input
+            type="file"
+            directory="directory"
+            multiple
+            webkitdirectory="webkitdirectory"
+            onChange={handleFolderSelected}
+          />
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
