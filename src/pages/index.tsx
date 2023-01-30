@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
 import { useEffect } from 'react';
+import { getAsByteArray, zip } from '@/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +20,7 @@ const getData = async () => {
   }
 };
 
-const handleFolderSelected = (event: {
+const handleFolderSelected = async (event: {
   target: { files: FileList | null };
 }) => {
   const files = event.target.files;
@@ -45,6 +46,11 @@ const handleFolderSelected = (event: {
   })(firstFile);
 
   reader.readAsText(firstFile);
+
+  const byteFile = await getAsByteArray(firstFile);
+  console.log('🚀 ~ byteFile', byteFile);
+  const zippedFile = zip(byteFile);
+  console.log('🚀 ~ test', zippedFile);
 };
 
 export default function Home() {
