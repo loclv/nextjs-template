@@ -2,7 +2,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
-import { getAsByteArray, zip } from '@/utils';
+import {
+  downloadFromBlobPartFile,
+  downloadFromUint8Array,
+  getAsByteArray,
+  zip,
+} from '@/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -40,6 +45,9 @@ const handleFolderSelected = async (event: {
   console.log('🚀 ~ byteFile', byteFile);
   const zippedFile = zip(byteFile);
   console.log('🚀 ~ test', zippedFile);
+
+  downloadFromUint8Array(zippedFile);
+  downloadFromBlobPartFile(zippedFile);
 };
 
 export default function Home() {
