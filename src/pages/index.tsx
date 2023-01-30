@@ -2,23 +2,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
-import { useEffect } from 'react';
 import { getAsByteArray, zip } from '@/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const env = process.env.NEXT_PUBLIC_ENV;
 if (env) console.log('🚀 ~ env', env);
-
-const getData = async () => {
-  try {
-    const response = await fetch('/api/hello');
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 const handleFolderSelected = async (event: {
   target: { files: FileList | null };
@@ -54,10 +43,6 @@ const handleFolderSelected = async (event: {
 };
 
 export default function Home() {
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
     <>
       <Head>
