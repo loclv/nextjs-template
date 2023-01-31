@@ -1,3 +1,5 @@
+const reader = new FileReader();
+
 /**
  * Read the file as array buffer.
  *
@@ -9,9 +11,6 @@ export const readFileAsArrayBuffer = (
   file: Blob
 ): Promise<string | ArrayBuffer | null | undefined> => {
   return new Promise((resolve, reject) => {
-    // Create file reader
-    const reader = new FileReader();
-
     // Register event listeners
     reader.addEventListener('loadend', (event) =>
       resolve(event.target?.result)
@@ -33,4 +32,19 @@ export const readFileAsArrayBuffer = (
  */
 export const getAsByteArray = async (file: Blob) => {
   return new Uint8Array((await readFileAsArrayBuffer(file)) as ArrayBufferLike);
+};
+
+export const readFileAsText = (file: File | Blob) => {
+  reader.onload = ((theFile) => {
+    console.log('🚀 ~ theFile', theFile);
+
+    return (fileReaderEvent) => {
+      console.log(
+        '🚀 ~ fileEvent.target?.result',
+        fileReaderEvent.target?.result
+      );
+    };
+  })(file);
+
+  reader.readAsText(file);
 };
