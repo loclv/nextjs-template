@@ -6,6 +6,7 @@ import {
   downloadFromBlobPartFile,
   downloadFromUint8Array,
   getAsByteArray,
+  readFileAsText,
   zip,
 } from '@/utils';
 
@@ -26,20 +27,7 @@ const handleFolderSelected = async (event: {
   const firstFile = files[0];
   if (!files) throw new Error('First file is not found!');
 
-  const reader = new FileReader();
-
-  reader.onload = ((theFile) => {
-    console.log('🚀 ~ theFile', theFile);
-
-    return (fileReaderEvent) => {
-      console.log(
-        '🚀 ~ fileEvent.target?.result',
-        fileReaderEvent.target?.result
-      );
-    };
-  })(firstFile);
-
-  reader.readAsText(firstFile);
+  readFileAsText(firstFile);
 
   const byteFile = await getAsByteArray(firstFile);
   console.log('🚀 ~ byteFile', byteFile);
