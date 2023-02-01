@@ -1,5 +1,3 @@
-const reader = new FileReader();
-
 /**
  * Read the file as array buffer.
  *
@@ -10,6 +8,8 @@ const reader = new FileReader();
 export const readFileAsArrayBuffer = (
   file: Blob
 ): Promise<string | ArrayBuffer | null | undefined> => {
+  const reader = new FileReader();
+
   return new Promise((resolve, reject) => {
     // Register event listeners
     reader.addEventListener('loadend', (event) =>
@@ -35,6 +35,8 @@ export const getAsByteArray = async (file: Blob) => {
 };
 
 export const readFileAsText = (file: File | Blob) => {
+  const reader = new FileReader();
+
   reader.onload = ((theFile) => {
     console.log('🚀 ~ theFile', theFile);
 
