@@ -14,7 +14,10 @@ import {
  * @param password - optional password
  * @returns true if using password
  */
-export const isZipFileUsingPassword = async (file: Blob, password?: string) => {
+export const isZipFileUsingPassword = async (
+  file: Blob,
+  password?: string
+): Promise<boolean> => {
   let reader: undefined | ZipReader<Blob>;
 
   try {
