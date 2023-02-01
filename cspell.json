@@ -4,6 +4,8 @@
         "checkstyle",
         "commitlint",
         "fflate",
-        "unzlib"
+        "Flate",
+        "unzlib",
+        "Zippable"
     ]
 }

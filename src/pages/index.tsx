@@ -3,11 +3,12 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
 import {
-  downloadFromBlobPartFile,
-  downloadFromUint8Array,
+  // downloadFromBlobPartFile,
+  // downloadFromUint8Array,
   getAsByteArray,
   readFileAsText,
   zip,
+  isZipFileUsingPassword,
 } from '@/utils';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -33,9 +34,36 @@ const handleFolderSelected = async (event: {
   console.log('🚀 ~ byteFile', byteFile);
   const zippedFile = zip(byteFile);
   console.log('🚀 ~ test', zippedFile);
+  const isUsingPass = await isZipFileUsingPassword(firstFile);
+  console.log('🚀 ~ isUsingPass', isUsingPass);
 
-  downloadFromUint8Array(zippedFile);
-  downloadFromBlobPartFile(zippedFile);
+  // downloadFromUint8Array(zippedFile);
+  // downloadFromBlobPartFile(zippedFile);
+};
+
+const handleFileSelected = async (event: {
+  target: { files: FileList | null };
+}) => {
+  const files = event.target.files;
+  if (!files) throw new Error('Files are not found!');
+
+  console.log('🚀 ~ event.target', event.target);
+  console.log('🚀 ~ files', files);
+
+  const firstFile = files[0];
+  if (!firstFile) throw new Error('First file is not found!');
+
+  readFileAsText(firstFile);
+
+  const byteFile = await getAsByteArray(firstFile);
+  console.log('🚀 ~ byteFile', byteFile);
+  const zippedFile = zip(byteFile);
+  console.log('🚀 ~ test', zippedFile);
+  const isUsingPass = await isZipFileUsingPassword(firstFile);
+  console.log('🚀 ~ isUsingPass', isUsingPass);
+
+  // downloadFromUint8Array(zippedFile);
+  // downloadFromBlobPartFile(zippedFile);
 };
 
 export default function Home() {
@@ -60,6 +88,7 @@ export default function Home() {
             webkitdirectory="webkitdirectory"
             onChange={handleFolderSelected}
           />
+          <input type="file" multiple onChange={handleFileSelected} />
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
