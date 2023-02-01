@@ -18,7 +18,7 @@ if (env) console.log('🚀 ~ env', env);
 
 const handleFolderSelected = async (event: {
   target: { files: FileList | null };
-}) => {
+}): Promise<void> => {
   const files = event.target.files;
   if (!files) throw new Error('Files are not found!');
 
@@ -43,7 +43,7 @@ const handleFolderSelected = async (event: {
 
 const handleFileSelected = async (event: {
   target: { files: FileList | null };
-}) => {
+}): Promise<void> => {
   const files = event.target.files;
   if (!files) throw new Error('Files are not found!');
 
