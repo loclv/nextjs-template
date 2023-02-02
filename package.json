@@ -14,7 +14,8 @@
     "lint:ts:fix": "eslint . --fix --ext .js,.ts,.tsx",
     "lint:css": "stylelint --cache **/*.{scss,css}",
     "lint:css:fix": "stylelint --cache --fix **/*.{scss,css}",
-    "format": "prettier --write --cache src"
+    "format": "prettier --write --cache src",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@next/font": "13.1.5",
