@@ -18,7 +18,7 @@ if (env) console.log('🚀 ~ env', env);
 
 const handleFolderSelected = async (event: {
   target: { files: FileList | null };
-}) => {
+}): Promise<void> => {
   const files = event.target.files;
   if (!files) throw new Error('Files are not found!');
 
@@ -43,7 +43,7 @@ const handleFolderSelected = async (event: {
 
 const handleFileSelected = async (event: {
   target: { files: FileList | null };
-}) => {
+}): Promise<void> => {
   const files = event.target.files;
   if (!files) throw new Error('Files are not found!');
 
@@ -53,14 +53,22 @@ const handleFileSelected = async (event: {
   const firstFile = files[0];
   if (!firstFile) throw new Error('First file is not found!');
 
-  readFileAsText(firstFile);
-
   const byteFile = await getAsByteArray(firstFile);
   console.log('🚀 ~ byteFile', byteFile);
+
   const zippedFile = zip(byteFile);
   console.log('🚀 ~ test', zippedFile);
+
   const isUsingPass = await isZipFileUsingPassword(firstFile);
   console.log('🚀 ~ isUsingPass', isUsingPass);
+
+  // unzip
+  // console.log('start to unzip');
+
+  // const unzippedFile = unzip(byteFile);
+  // console.log('🚀 ~ unzippedFile', unzippedFile);
+
+  // console.log('end to unzip');
 
   // downloadFromUint8Array(zippedFile);
   // downloadFromBlobPartFile(zippedFile);

@@ -3,6 +3,7 @@
         "callout",
         "checkstyle",
         "commitlint",
+        "EOCDR",
         "fflate",
         "Flate",
         "unzlib",

@@ -4,6 +4,7 @@ import {
   BlobReader,
   ERR_ENCRYPTED,
   ERR_INVALID_PASSWORD,
+  ERR_EOCDR_NOT_FOUND,
 } from '@zip.js/zip.js';
 
 /**
@@ -13,7 +14,10 @@ import {
  * @param password - optional password
  * @returns true if using password
  */
-export const isZipFileUsingPassword = async (file: Blob, password?: string) => {
+export const isZipFileUsingPassword = async (
+  file: Blob,
+  password?: string
+): Promise<boolean> => {
   let reader: undefined | ZipReader<Blob>;
 
   try {
@@ -24,20 +28,34 @@ export const isZipFileUsingPassword = async (file: Blob, password?: string) => {
       try {
         await entry.getData(new BlobWriter());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
+      } catch (entryError: any) {
         // importance logger
-        console.log('zip - reader:', error.message);
+        console.log('zip - reader entry:', entryError.message);
 
         if (
-          error.message === ERR_ENCRYPTED ||
-          error.message === ERR_INVALID_PASSWORD
+          entryError.message === ERR_ENCRYPTED ||
+          entryError.message === ERR_INVALID_PASSWORD
         ) {
           return true;
-        } else {
-          throw error;
         }
+
+        if (entryError.message === ERR_EOCDR_NOT_FOUND) {
+          console.log('zip - reader entry: this is may not a zip file!');
+          return false;
+        }
+
+        throw entryError;
       }
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    if (err.message === ERR_EOCDR_NOT_FOUND) {
+      console.log('zip - reader: this is may not a zip file!');
+      return false;
+    }
+
+    console.log('zip - reader:', err.message);
+    return false;
   } finally {
     if (reader) await reader.close();
   }
