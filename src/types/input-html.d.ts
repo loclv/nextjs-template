@@ -6,5 +6,6 @@ declare module 'react' {
     // extends React's HTMLAttributes
     directory?: string;
     webkitdirectory?: string;
+    mozdirectory?: string;
   }
 }

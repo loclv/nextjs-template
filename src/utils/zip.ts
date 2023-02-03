@@ -1,22 +1,15 @@
-import { zlibSync, unzipSync, Unzipped } from 'fflate';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import JSZip from 'jszip';
 
-export const zip = (file: Uint8Array) => {
-  return zlibSync(file, { level: 9 });
-};
+export const zip = async (files: FileList) => {
+  const zip = JSZip();
 
-export const unzip = (
-  file: Uint8Array
-): string | undefined | never | Unzipped => {
-  let unzipFile: undefined | Unzipped;
-
-  try {
-    unzipFile = unzipSync(file);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    console.log('🚀 ~ error', error);
-
-    throw error;
+  for (let file = 0; file < files.length; file++) {
+    const fileDir = files[file].webkitRelativePath || files[file].name;
+    zip.file(fileDir, files[file]);
   }
+  zip.folder('test empty');
 
-  return unzipFile;
+  const zippedFile = await zip.generateAsync({ type: 'blob' });
+  return zippedFile;
 };

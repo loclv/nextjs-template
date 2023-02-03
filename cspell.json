@@ -1,12 +1,15 @@
 {
     "words": [
+        "blobdata",
         "callout",
         "checkstyle",
+        "comlink",
         "commitlint",
         "EOCDR",
         "fflate",
         "Flate",
         "unzlib",
+        "zipblob",
         "Zippable"
     ]
 }
