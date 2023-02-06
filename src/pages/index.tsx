@@ -96,7 +96,7 @@ const handleFileSelected = async (event: {
 
 export default function Home() {
   useEffect(() => {
-    const plusWorker = new Worker(new URL('../plus', import.meta.url));
+    const plusWorker = new Worker(new URL('../workers/plus', import.meta.url));
     console.log('🚀 ~ plusWorker', plusWorker);
 
     plusWorker.onmessage = (event) => {
