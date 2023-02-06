@@ -10,6 +10,7 @@ import {
   zip,
   isZipFileUsingPassword,
 } from '@/utils';
+import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -62,6 +63,25 @@ const handleFileSelected = async (event: {
   const isUsingPass = await isZipFileUsingPassword(firstFile);
   console.log('🚀 ~ isUsingPass', isUsingPass);
 
+  // const plusWorker = new Worker(new URL('../workers/plus', import.meta.url));
+  // console.log('🚀 ~ plusWorker', plusWorker);
+
+  // plusWorker.postMessage([1, 2]);
+
+  // plusWorker.onmessage = (event) => {
+  //   console.log('🍏 Message received from worker: ', event.data);
+  // };
+
+  // plusWorker.onerror = (event) => {
+  //   if (event instanceof Event) {
+  //     console.log('🍎 Error message received from worker: ', event);
+  //     return event;
+  //   }
+
+  //   console.log('🍎 Unexpected error: ', event);
+  //   throw event;
+  // };
+
   // unzip
   // console.log('start to unzip');
 
@@ -75,6 +95,31 @@ const handleFileSelected = async (event: {
 };
 
 export default function Home() {
+  useEffect(() => {
+    const plusWorker = new Worker(new URL('../plus', import.meta.url));
+    console.log('🚀 ~ plusWorker', plusWorker);
+
+    plusWorker.onmessage = (event) => {
+      console.log('🍏 Message received from worker: ', event.data);
+    };
+
+    plusWorker.onerror = (event) => {
+      if (event instanceof Event) {
+        console.log('🍎 Error message received from worker: ', event);
+        return event;
+      }
+
+      console.log('🍎 Unexpected error: ', event);
+      throw event;
+    };
+
+    plusWorker.postMessage([1, 2]);
+
+    return () => {
+      plusWorker.terminate();
+    };
+  }, []);
+
   return (
     <>
       <Head>
