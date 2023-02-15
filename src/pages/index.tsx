@@ -3,13 +3,14 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
 import {
-  // downloadFromBlobPartFile,
+  downloadFromBlobPartFile,
   // downloadFromUint8Array,
   getAsByteArray,
   readFileAsText,
   zip,
   isZipFileUsingPassword,
 } from '@/utils';
+import JSZip from 'jszip';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,17 +26,35 @@ const handleFolderSelected = async (event: {
   console.log('🚀 ~ event.target', event.target);
   console.log('🚀 ~ files', files);
 
-  const firstFile = files[0];
-  if (!files) throw new Error('First file is not found!');
+  // const firstFile = files[0];
+  // if (!files) throw new Error('First file is not found!');
 
-  readFileAsText(firstFile);
+  // readFileAsText(firstFile);
 
-  const byteFile = await getAsByteArray(firstFile);
-  console.log('🚀 ~ byteFile', byteFile);
-  const zippedFile = zip(byteFile);
-  console.log('🚀 ~ test', zippedFile);
-  const isUsingPass = await isZipFileUsingPassword(firstFile);
-  console.log('🚀 ~ isUsingPass', isUsingPass);
+  // const byteFile = await getAsByteArray(firstFile);
+  // console.log('🚀 ~ byteFile', byteFile);
+  // const zippedFile = zip(byteFile);
+  // console.log('🚀 ~ test', zippedFile);
+  // const isUsingPass = await isZipFileUsingPassword(firstFile);
+  // console.log('🚀 ~ isUsingPass', isUsingPass);
+
+  const zip = new JSZip();
+
+  const img = zip.folder('images');
+  for (const file of files) {
+    console.log('🚀 ~ file', file);
+    const filename = file.name;
+    img?.file(filename, file);
+  }
+
+  zip
+    .generateAsync({ type: 'blob', compression: 'DEFLATE' })
+    .then((content) => {
+      console.log('🚀 ~ content', content);
+      const zipFile = new File([content], 'data.zip', { type: 'zip' });
+      console.log('🚀 ~ zipFile', zipFile);
+      downloadFromBlobPartFile(zipFile);
+    });
 
   // downloadFromUint8Array(zippedFile);
   // downloadFromBlobPartFile(zippedFile);
@@ -81,6 +100,7 @@ export default function Home() {
             Get started by editing&nbsp;
             <code className={styles.code}>pages/index.tsx</code>
           </p>
+          Folder:
           <input
             type="file"
             directory="directory"
@@ -88,6 +108,7 @@ export default function Home() {
             webkitdirectory="webkitdirectory"
             onChange={handleFolderSelected}
           />
+          File:
           <input type="file" multiple onChange={handleFileSelected} />
           <div>
             <a
