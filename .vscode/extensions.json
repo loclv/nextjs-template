@@ -9,6 +9,8 @@
 		"Gruntfuggly.todo-tree",
 		"mikestead.dotenv",
 		"foxundermoon.next-js",
-		"planbcoding.vscode-react-refactor"
+		"planbcoding.vscode-react-refactor",
+		"yoavbls.pretty-ts-errors",
+		"usernamehw.errorlens"
 	]
 }
