@@ -11,6 +11,7 @@
 		"foxundermoon.next-js",
 		"planbcoding.vscode-react-refactor",
 		"yoavbls.pretty-ts-errors",
-		"usernamehw.errorlens"
+		"usernamehw.errorlens",
+		"mhutchie.git-graph"
 	]
 }
